@@ -13,6 +13,7 @@ import { useAccess } from './use-access';
 interface Props {
   /**
    * Specified codes is visible
+   * @default []
    */
   codes?: string[];
 
@@ -28,14 +29,14 @@ defineOptions({
 });
 
 const props = withDefaults(defineProps<Props>(), {
-  codes: undefined,
+  codes: () => [],
   type: 'role',
 });
 
 const { hasAccessByCodes, hasAccessByRoles } = useAccess();
 
 const hasAuth = computed(() => {
-  const { codes = [], type } = props;
+  const { codes, type } = props;
   return type === 'role' ? hasAccessByRoles(codes) : hasAccessByCodes(codes);
 });
 </script>
